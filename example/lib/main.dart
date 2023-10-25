@@ -101,7 +101,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 tileColor:
                     focused ? Color.fromARGB(20, 0, 0, 0) : Colors.transparent,
-                onTap: onTap,
+                onTap: () {
+                  print(item['name']);
+                },
               ),
             ),
           ],
