@@ -129,7 +129,7 @@ class DropdownFormFieldState<T> extends State<DropdownFormField>
   DropdownEditingController<dynamic>? get _effectiveController =>
       widget.controller ?? _controller;
 
-  DropdownFormFieldState() : super() {}
+  DropdownFormFieldState() : super();
 
   @override
   void initState() {
@@ -138,8 +138,9 @@ class DropdownFormFieldState<T> extends State<DropdownFormField>
     if (widget.autoFocus) _widgetFocusNode.requestFocus();
     _selectedItem = _effectiveController!.value;
 
-    _searchFocusNode.addListener(() {
+    _searchFocusNode.addListener(() async {
       if (!_searchFocusNode.hasFocus && _overlayEntry != null) {
+        await Future.delayed(Duration(milliseconds: 100));
         _removeOverlay();
       }
     });
@@ -173,6 +174,9 @@ class DropdownFormFieldState<T> extends State<DropdownFormField>
               _isFocused = focused;
             });
           },
+          // onKeyEvent: (node, event) {
+          //   return _onKeyEvent(event);
+          // },
           onKey: (focusNode, event) {
             return _onKeyPressed(event);
           },
@@ -181,6 +185,7 @@ class DropdownFormFieldState<T> extends State<DropdownFormField>
               if (widget.validator != null) {
                 widget.validator!(_effectiveController!.value);
               }
+              return null;
             },
             onSaved: (str) {
               if (widget.onSaved != null) {
@@ -328,8 +333,7 @@ class DropdownFormFieldState<T> extends State<DropdownFormField>
       _overlayEntry = _createOverlayEntry();
       if (_overlayEntry != null) {
         // Overlay.of(context)!.insert(_overlayEntry!);
-        Overlay.of(context)!
-            .insertAll([_overlayBackdropEntry!, _overlayEntry!]);
+        Overlay.of(context).insertAll([_overlayBackdropEntry!, _overlayEntry!]);
         setState(() {
           _searchFocusNode.requestFocus();
         });
@@ -432,4 +436,53 @@ class DropdownFormFieldState<T> extends State<DropdownFormField>
     }
     _searchTextController.value = TextEditingValue(text: "");
   }
+
+  // _onKeyEvent(KeyEvent event) {
+  //   if (event.logicalKey == LogicalKeyboardKey.enter) {
+  //     if (_searchFocusNode.hasFocus) {
+  //       _toggleOverlay();
+  //     } else {
+  //       _toggleOverlay();
+  //     }
+  //     return
+  //         //  Platform.isWindows || Platform.isMacOS
+  //         // ?
+  //         KeyEventResult.ignored;
+  //     // : false;
+  //   } else if (event.logicalKey == LogicalKeyboardKey.escape) {
+  //     _removeOverlay();
+  //     return
+  //         //  Platform.isWindows || Platform.isMacOS
+  //         // ?
+  //         KeyEventResult.handled;
+  //     // : true;
+  //   } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+  //     int v = _listItemFocusedPosition;
+  //     v++;
+  //     if (v >= _options!.length) v = 0;
+  //     _listItemFocusedPosition = v;
+  //     _listItemsValueNotifier.value = List<T>.from(_options ?? []);
+  //     return
+  //         // Platform.isWindows || Platform.isMacOS
+  //         // ?
+  //         KeyEventResult.handled;
+  //     // : true;
+  //   } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+  //     int v = _listItemFocusedPosition;
+  //     v--;
+  //     if (v < 0) v = _options!.length - 1;
+  //     _listItemFocusedPosition = v;
+  //     _listItemsValueNotifier.value = List<T>.from(_options ?? []);
+  //     return
+  //         //  Platform.isWindows || Platform.isMacOS
+  //         // ?
+  //         KeyEventResult.handled;
+  //     // : true;
+  //   }
+  //   return
+  //       // Platform.isWindows || Platform.isMacOS
+  //       // ?
+  //       KeyEventResult.ignored;
+  //   // : false;
+  // }
 }

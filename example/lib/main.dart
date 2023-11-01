@@ -77,7 +77,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   suffixIcon: Icon(Icons.arrow_drop_down),
                   labelText: "Access"),
               onSaved: (dynamic str) {},
-              onChanged: (dynamic str) {},
+              onChanged: (dynamic str) {
+                print('Onchange:' + str.toString());
+              },
               validator: (dynamic str) {},
               displayItemFn: (dynamic item) => Text(
                 (item ?? {})['name'] ?? '',
@@ -102,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 tileColor:
                     focused ? Color.fromARGB(20, 0, 0, 0) : Colors.transparent,
                 onTap: () {
-                  print(item['name']);
+                  print('onTap:' + item['name']);
                 },
               ),
             ),
