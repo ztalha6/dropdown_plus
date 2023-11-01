@@ -140,7 +140,7 @@ class DropdownFormFieldState<T> extends State<DropdownFormField>
 
     _searchFocusNode.addListener(() async {
       if (!_searchFocusNode.hasFocus && _overlayEntry != null) {
-        await Future.delayed(Duration(milliseconds: 100));
+        await Future.delayed(Duration(milliseconds: 200));
         _removeOverlay();
       }
     });
